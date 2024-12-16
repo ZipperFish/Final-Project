@@ -1,0 +1,249 @@
+---
+title: "Impact of Library Concentration on Employment and Wages in the U.S"
+format: html
+author: Nana Frimpong 
+editor: visual
+---
+## Abstract
+
+The project will explore the relationship between concentration of libraries in metropolitan areas based on libraries employed per 1000 people and aslo observe how librarian wages differ across the states with different library systems. Our first dataset will focus on the concentration of libraries and the librarian employment in these metropolitan areas. The second dataset will will examine the wages of librarians across different states. The Welch T test will will be use on both data sets to analyze categories of variables. Our first datat set will examine the high and low library concentration for librarians employment. The second dataset will look into how wages differnt in above -median and below median wages through different states. My statistical analysis reveals that states with higher median wages earn an avergae of 47,635 dollars and states will lower median wages earn 34,227 dollars. Our analysis also show that metropolitan areas with high concentration of libraries will likely have a mean of 1.37 librarians employed for 1000 people, compared to 0.80 librarians employed per 1000 people in metropolitan areas with low concentration.  
+
+
+##   Introduction
+
+The library has always been one of my favorite spaces to interact with people and just be
+comfortable in an environment where I can further my knowledge and learn from people. I
+always used to attend the big public library at Fordhman to pick out books to read in elementary
+school and participate in activities at the library. My younger siblings have recently been going
+to the library to learn how to play chess and watch interviews done by authors of their favorite
+books. This was a really wonderful experience for them as they spend time discussing their
+favorite books and authors. Their afterschool and weekend programs are really helpful to people around the city, as I even 
+used the library resources for research, career development and discussions. Recently, when it
+was revealed that the library was canceling their seven day services, I was disappointed that
+budget cuts had affected this essential infrastructure that was providing services to millions of
+students around the city. However, libraries are impossible without librarians, who play a role in
+providing knowledge about research, career services, tech support, and other activities offered
+there. Funding has always been an issue with libraries across the coutnry and this lack of
+funding has affected the growth of the occupation. Recently, during my morning news reading,I
+learnt about how the recent floods in North Carolina destroyed the telecommunications system.
+This prompted people to gather at the library because that was the only facility with access to
+the internet and other tech support tools.
+
+This data provides information about the population of librarians employed around the country
+in metropolitan areas per 1000 people and the concentration of library in these areas. The other dataset provides wages of librarians from the year 2014 to 2017 across different states. Some questiosn we can address with these datasets are "What is the relationship between the concentration of libraries in metropolitan areas and the number of librarians employed per 1,000 people?"  and "How do librarian wages vary across states with different libraries and librarians?" 
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(Hmisc)
+library(psych)
+```
+
+
+
+```{r}
+library(readr)
+librarians_by_msa <- read_csv("librarians-by-msa.csv")
+```
+```{r}
+glimpse(librarians_by_msa)
+```
+
+
+```{r}
+library(readr)
+employment_data <- read_csv("Employment by Location.csv")
+glimpse(employment_data )
+```
+
+# Data Wrangling  for Librarian Employment
+
+
+Cleaning data for the first dataset 
+```{r}
+librarians_data   =  librarians_by_msa %>%
+  filter(tot_emp != "**" & emp_prse != "**") %>%
+  mutate(
+    tot_emp = as.numeric(tot_emp),
+    emp_prse = as.numeric(emp_prse),
+    jobs_1000 = as.numeric(jobs_1000),
+    loc_quotient = as.numeric(loc_quotient)
+  )
+```
+```{r}
+librarians_data =  librarians_data%>%
+  drop_na() 
+```
+
+# Exploratory Data Analysis For  Librarian Employment
+
+```{r}
+describe(librarians_data)
+```
+
+```{r}
+summary_stats  =  librarians_data %>%
+  summarise(
+    mean_jobs_1000 = mean(jobs_1000),
+    median_jobs_1000 = median(jobs_1000),
+    sd_jobs_1000 = sd(jobs_1000),
+    min_jobs_1000 = min(jobs_1000),
+    max_jobs_1000 = max(jobs_1000),
+    mean_loc_quotient = mean(loc_quotient),
+    median_loc_quotient = median(loc_quotient),
+    sd_loc_quotient = sd(loc_quotient),
+    min_loc_quotient = min(loc_quotient),
+    max_loc_quotient = max(loc_quotient)
+  )
+print(summary_stats)
+
+```
+Here I used a histogram, boxplot, and desnsity plot to first find the librarians per 1000 people,  concentration for library location and a density to better visualize the concentration.
+```{r}
+# Histogram of librarians per 1000 people
+ggplot(librarians_data, aes(x = jobs_1000)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Librarians per 1000 People", x = "Librarians per 1000 People", y = "Frequency") +
+  theme_minimal()
+
+# Boxplot of loc_quotient (library concentration)
+ggplot(librarians_data, aes(y = loc_quotient)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(title = "Boxplot of Library Concentration (Location Quotient)", y = "Library Concentration") +
+  theme_minimal()
+
+# Density plot of loc_quotient
+ggplot(librarians_data, aes(x = loc_quotient)) +
+  geom_density(fill = "red", alpha = 0.5) +
+  labs(title = "Density Plot of Library Concentration", x = "Library Concentration", y = "Density") +
+  theme_minimal()
+
+```
+## Statistical Model For Librarian Employment
+
+```{r}
+# Covariance and corrleation  between loc_quotient and jobs_1000
+covariance <- cov(librarians_data$loc_quotient, librarians_data$jobs_1000)
+correlation <- cor(librarians_data$loc_quotient, librarians_data$jobs_1000)
+print(covariance)
+print(correlation)
+``` 
+
+```{r}
+# Using boxplot to find outliers
+ggplot(librarians_data, aes(y = jobs_1000)) +
+  geom_boxplot(fill = "orange", color = "black") +
+  labs(title = "Boxplot of Librarians per 1000 People Outliers", y = "Librarians per 1000 People") +
+  theme_minimal()
+```
+
+Using the T- test I create hypothese test 
+null hypothessis - the mean number of librarians per 1k poeple is teh same in low and high concentration of librarys.
+Alternative - The mean number of librarians per 1k people is the differennt area with high and low library concentration 
+```{r}
+# here am usign two catergories to find high and low concetration of location if library 
+librarians_data$high_concentration <- ifelse(librarians_data$loc_quotient > median(librarians_data$loc_quotient), "High as in good ", "Low as in bad")
+
+# The t test is model i will use to compare both groups
+t_test_result <- t.test(jobs_1000 ~ high_concentration, data = librarians_data)
+print(t_test_result)
+
+```
+Using the t- test my t-statistic was 18.867, indicating a large difference betetween both variables. The p value was low with a value of 2.2e^-16. The results show that area with higher concentration of libraries  will have more librarians for 1000 people than areas with low concentration of people. Even though we have a small p-value, we can still reject the null hypothsis because of the large statisticall difference between areas with high and low concentration of libraries.
+
+
+
+### Data Wrangling  for Librarian Wages
+
+```{r}
+data_clean_wages =  employment_data %>%
+  filter(`Detailed Occupation` == "Librarians") %>%
+  mutate(
+    Average_Wage = as.numeric(`Average Wage`),
+    State = as.factor(State),
+    Year = as.factor(Year)
+  ) %>%
+  drop_na()  
+```
+```{r}
+describe(data_clean_wages)
+```
+
+
+## Data Wrangling  for Librarian Wages 
+```{r}
+summary_stats_wages <- data_clean_wages %>%
+  summarise(
+    mean_wage = mean(Average_Wage),
+    median_wage = median(Average_Wage),
+    sd_wage = sd(Average_Wage),
+    min_wage = min(Average_Wage),
+    max_wage = max(Average_Wage)
+  )
+print(summary_stats_wages)
+```
+
+I use the same data visualizaton for the this data set 
+```{r}
+# Histogram of Average Wage
+ggplot(data_clean_wages, aes(x = Average_Wage)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Librarian Wages Across States", x = "Average Wage", y = "Frequency") +
+  theme_minimal()
+
+# Boxplot of Average Wage by State
+ggplot(data_clean_wages, aes(x = State, y = Average_Wage)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(title = "Boxplot of Librarian Wages by State", x = "State", y = "Average Wage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Density plot of Average Wage
+ggplot(data_clean_wages, aes(x = Average_Wage)) +
+  geom_density(fill = "red", alpha = 0.5) +
+  labs(title = "Density Plot of Librarian Wages", x = "Average Wage", y = "Density") +
+  theme_minimal()
+
+```
+
+## Statistical Model For Librarian Wages
+
+Using the T- test I create hypotheses test 
+null hypothesis - the mean librarian wage is the same for states with above and below median wages
+Alternative - the mean librarian wage are different between states with above median and below meidan wages
+
+```{r}
+# make two catergories for people with good high and low wage 
+data_clean_wages  =  data_clean_wages %>%
+  mutate(
+    wage_category = ifelse(Average_Wage > median(Average_Wage, na.rm = TRUE), "High", "Low")
+  )
+```
+
+```{r}
+
+t_test_wages = t.test(Average_Wage ~ wage_category, data = data_clean_wages)
+print(t_test_wages)
+
+```
+
+Box for outliers in the average wages 
+```{r}
+ggplot(data_clean_wages, aes(y = Average_Wage)) +
+  geom_boxplot(fill = "orange", color = "black") +
+  labs(title = "Boxplot of Librarian Wages Outliers", y = "Average Wage") +
+  theme_minimal()
+```
+
+The t statistic was 15.965 which is big value showing that there is large differenc between high and low wages. When observing my p value test statistic it was pretty small wiht value of 2.2e^16 indicating that the null hypothesis willl be rejected. Through my t tes results librarain that live in states with above median wages can get between $15k and $11Km than the librarins that live in states with below median wages. This does show there is a disparity in wages across the states can be influecned by cost of livign, funding for librarys and local/ federal laws and policies. 
+
+
+## Conclusion 
+
+Through the analysis on both datasets we can answer our original question."What is the relationship between the concentration of libraries in metropolitan areas and the number of librarians employed per 1,000 people?"  and "How do librarian wages vary across states with different libraries and librarians?" 
+We first begun by analyzing  the relationship between library concentration and number of librarians employed per 1000 people. With data wrangling and t test we found a significant difference between low and high library concentration and the number of librarians employed for 1000 people. We can observe that metropolitan areas with high concentration of libraries will likely have a mean of 1.37 librarians employed for 1000 people, compared to 0.80 librarians employed per 1000 people in metropolitan areas with low concentration. We can say that areas with high library concentration will have a higher demand for librarians
+
+Through our second data set, we observed the librarian wages across different states with different concentration of library. Using the the t test we i was able to support my hypothesis test to show that there is significant difference between above and below median wages across the states. With our t test we can see that librarians that live in states with above median wages earn  a mean wage 47,635 dollars and librarians with below median wage have wage of mean of 34,227 dollars. This shows the a the geographic factor of librarian wage is influenced by the the presence of library, cost of living, and state funding. 
+
+Overall, both data sets show some insights to the future profession of librarians across the country. Our first data set show relationship between library concentration and librarian employed and the second data set shows the wage disparities of the professioon based on geographic factors. My findings show that library funding and infrastructure play a role in the compensation and employment. 
