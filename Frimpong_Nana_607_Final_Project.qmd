@@ -140,7 +140,7 @@ ggplot(librarians_data, aes(y = jobs_1000)) +
 
 Using the T- test I create hypothese test 
 null hypothesis - the mean number of librarians per 1k people is the same in low and high concentration of librarys.
-Alternative - The mean number of librarians per 1k people is the different area with high and low library concentration 
+Alternative - The mean number of librarians per 1k people is the different area with high and low library concentration  
 ```{r}
 # here am usign two catergories to find high and low concetration of location if library 
 librarians_data$high_concentration <- ifelse(librarians_data$loc_quotient > median(librarians_data$loc_quotient), "High as in good ", "Low as in bad")
