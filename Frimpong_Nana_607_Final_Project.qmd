@@ -249,5 +249,10 @@ Through our second data set, we observed the librarian wages across different st
 Overall, both data sets show some insights to the future profession of librarians across the country. Our first data set show relationship between library concentration and librarian employed and the second data set shows the wage disparities of the professioon based on geographic factors. My findings show that library funding and infrastructure play a role in the compensation and employment. 
 
 ## Reference 
+
+Flowers, M. C. a. A. (2017, April 21). Where Are America’s Librarians? FiveThirtyEight. https://fivethirtyeight.com/features/where-are-americas-librarians/
+
+Librarians | Data USA. (n.d.). Data USA. https://datausa.io/profile/soc/librarians
+
 Dataset 1 - https://github.com/fivethirtyeight/data/tree/master/librarians
 Dataset 2 - https://datausa.io/profile/soc/librarians
