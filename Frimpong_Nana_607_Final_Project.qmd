@@ -247,3 +247,7 @@ We first begun by analyzing  the relationship between library concentration and 
 Through our second data set, we observed the librarian wages across different states with different concentration of library. Using the the t test we i was able to support my hypothesis test to show that there is significant difference between above and below median wages across the states. With our t test we can see that librarians that live in states with above median wages earn  a mean wage 47,635 dollars and librarians with below median wage have wage of mean of 34,227 dollars. This shows the a the geographic factor of librarian wage is influenced by the the presence of library, cost of living, and state funding. 
 
 Overall, both data sets show some insights to the future profession of librarians across the country. Our first data set show relationship between library concentration and librarian employed and the second data set shows the wage disparities of the professioon based on geographic factors. My findings show that library funding and infrastructure play a role in the compensation and employment. 
+
+## Reference 
+Dataset 1 - https://github.com/fivethirtyeight/data/tree/master/librarians
+Dataset 2 - https://datausa.io/profile/soc/librarians
