@@ -139,8 +139,8 @@ ggplot(librarians_data, aes(y = jobs_1000)) +
 ```
 
 Using the T- test I create hypothese test 
-null hypothessis - the mean number of librarians per 1k poeple is teh same in low and high concentration of librarys.
-Alternative - The mean number of librarians per 1k people is the differennt area with high and low library concentration 
+null hypothesis - the mean number of librarians per 1k people is the same in low and high concentration of librarys.
+Alternative - The mean number of librarians per 1k people is the different area with high and low library concentration 
 ```{r}
 # here am usign two catergories to find high and low concetration of location if library 
 librarians_data$high_concentration <- ifelse(librarians_data$loc_quotient > median(librarians_data$loc_quotient), "High as in good ", "Low as in bad")
@@ -150,7 +150,7 @@ t_test_result <- t.test(jobs_1000 ~ high_concentration, data = librarians_data)
 print(t_test_result)
 
 ```
-Using the t- test my t-statistic was 18.867, indicating a large difference betetween both variables. The p value was low with a value of 2.2e^-16. The results show that area with higher concentration of libraries  will have more librarians for 1000 people than areas with low concentration of people. Even though we have a small p-value, we can still reject the null hypothsis because of the large statisticall difference between areas with high and low concentration of libraries.
+Using the t- test my t-statistic was 18.867, indicating a large difference between both variables. The p value was low with a value of 2.2e^-16. The results show that area with higher concentration of libraries  will have more librarians for 1000 people than areas with low concentration of people. Even though we have a small p-value, we can still reject the null hypothesis because of the large statistical difference between areas with high and low concentration of libraries.
 
 
 
@@ -236,7 +236,8 @@ ggplot(data_clean_wages, aes(y = Average_Wage)) +
   theme_minimal()
 ```
 
-The t statistic was 15.965 which is big value showing that there is large differenc between high and low wages. When observing my p value test statistic it was pretty small wiht value of 2.2e^16 indicating that the null hypothesis willl be rejected. Through my t tes results librarain that live in states with above median wages can get between $15k and $11Km than the librarins that live in states with below median wages. This does show there is a disparity in wages across the states can be influecned by cost of livign, funding for librarys and local/ federal laws and policies. 
+The t statistic was 15.965 which is big value showing that there is large difference between high and low wages. When observing my p value test statistic it was pretty small wit value of 2.2e^16 indicating that the null hypothesis will be rejected. Through my t test results librarain that live in states with above median wages can earn 47,635 dollars librarians and librarians that live in below median wages earn on average 34,227 dollars. 
+This does show there is a disparity in wages across the states can be influenced by cost of livign, funding for librarys and local/ federal laws and policies. 
 
 
 ## Conclusion 

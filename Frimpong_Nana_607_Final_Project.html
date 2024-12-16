@@ -342,7 +342,7 @@ loc_quotient 1.82     7.96  0.02</code></pre>
 </div>
 </div>
 </div>
-<p>Using the T- test I create hypothese test null hypothessis - the mean number of librarians per 1k poeple is teh same in low and high concentration of librarys. Alternative - The mean number of librarians per 1k people is the differennt area with high and low library concentration</p>
+<p>Using the T- test I create hypothese test null hypothesis - the mean number of librarians per 1k people is the same in low and high concentration of librarys. Alternative - The mean number of librarians per 1k people is the different area with high and low library concentration</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here am usign two catergories to find high and low concetration of location if library </span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>librarians_data<span class="sc">$</span>high_concentration <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(librarians_data<span class="sc">$</span>loc_quotient <span class="sc">&gt;</span> <span class="fu">median</span>(librarians_data<span class="sc">$</span>loc_quotient), <span class="st">"High as in good "</span>, <span class="st">"Low as in bad"</span>)</span>
@@ -364,7 +364,7 @@ mean in group High as in good     mean in group Low as in bad
                      1.3658370                      0.8006043 </code></pre>
 </div>
 </div>
-<p>Using the t- test my t-statistic was 18.867, indicating a large difference betetween both variables. The p value was low with a value of 2.2e^-16. The results show that area with higher concentration of libraries will have more librarians for 1000 people than areas with low concentration of people. Even though we have a small p-value, we can still reject the null hypothsis because of the large statisticall difference between areas with high and low concentration of libraries.</p>
+<p>Using the t- test my t-statistic was 18.867, indicating a large difference between both variables. The p value was low with a value of 2.2e^-16. The results show that area with higher concentration of libraries will have more librarians for 1000 people than areas with low concentration of people. Even though we have a small p-value, we can still reject the null hypothesis because of the large statistical difference between areas with high and low concentration of libraries.</p>
 <section id="data-wrangling-for-librarian-wages" class="level3">
 <h3 class="anchored" data-anchor-id="data-wrangling-for-librarian-wages">Data Wrangling for Librarian Wages</h3>
 <div class="cell">
@@ -519,7 +519,7 @@ mean in group High  mean in group Low
 </div>
 </div>
 </div>
-<p>The t statistic was 15.965 which is big value showing that there is large differenc between high and low wages. When observing my p value test statistic it was pretty small wiht value of 2.2e^16 indicating that the null hypothesis willl be rejected. Through my t tes results librarain that live in states with above median wages can get between $15k and $11Km than the librarins that live in states with below median wages. This does show there is a disparity in wages across the states can be influecned by cost of livign, funding for librarys and local/ federal laws and policies.</p>
+<p>The t statistic was 15.965 which is big value showing that there is large difference between high and low wages. When observing my p value test statistic it was pretty small wit value of 2.2e^16 indicating that the null hypothesis will be rejected. Through my t test results librarain that live in states with above median wages can earn 47,635 dollars librarians and librarians that live in below median wages earn on average 34,227 dollars. This does show there is a disparity in wages across the states can be influenced by cost of livign, funding for librarys and local/ federal laws and policies.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
